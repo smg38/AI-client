@@ -13,7 +13,14 @@ aic_init_db
 aic_save_msg "user" "test message"
 RES=$(aic_load_context)
 if [[ "$RES" == *"test message"* ]]; then
-  echo "PASS"
+  echo "Save PASS"
+  RES=$(aic_del_msg "user" "test message")
+  if [[ ! "$RES" ]]; then
+    echo "Delete PASS"
+  else
+    echo "Delete FAIL"
+    exit 1
+  fi
 else
   echo "FAIL"
   exit 1

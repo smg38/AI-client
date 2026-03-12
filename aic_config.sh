@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # AI-client config
-# Версия: 2.0.0
+# Версия: 2.1.0
 # Автор: TG: @smg38
 
 CONFIG="./.config.yaml"
-FALLBACK="$HOME/ai-client/.config.yaml"
-
-LOGFILE="/var/log/ai-client/chat.log"
+FALLBACK="./.config_example.yaml"   #"$HOME/ai-client/.config.yaml"
+LOGFILE="./aic_chat.log"
+LOG_LEVEL="${LOG_LEVEL:-info}"
+#LOGFILE="/var/log/ai-client/chat.log"
 
 aic_init_config(){
 
@@ -16,14 +17,14 @@ CFG="$CONFIG"
 elif [[ -f "$FALLBACK" ]]; then
 CFG="$FALLBACK"
 
-else
-mkdir -p "$HOME/ai-client"
+# else
+# mkdir -p "$HOME/ai-client"
 
 cat > "$FALLBACK" <<EOF
 providers:
 
   routerai:
-    base_url: https://routerai.ru/api/v1
+    base_url: https://routerai.ru/api/v1s
     api_key: CHANGE_ME
 
 models:
@@ -38,9 +39,9 @@ CFG="$FALLBACK"
 
 fi
 
-mkdir -p /var/log/ai-client 2>/dev/null || true
-LOG_LEVEL="${LOG_LEVEL:-info}"
-touch "$LOGFILE" 2>/dev/null || LOGFILE="$HOME/ai-client/chat.log"
+#mkdir -p /var/log/ai-client 2>/dev/null || true
+#touch "$LOGFILE" 2>/dev/null || LOGFILE="$HOME/ai-client/chat.log"
+log info "Config: $CFG LogLevel: $LOG_LEVEL"
 
 }
 

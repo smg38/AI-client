@@ -42,3 +42,13 @@ WHERE user='$USER_NAME'
 ORDER BY id DESC
 LIMIT 10;"
 }
+
+aic_del_msg(){
+
+local role="$1"
+local text="$2"
+
+sqlite3 "$DB" \
+"DELETE FROM messages WHERE user='$USER_NAME' AND role='$role' AND content='$text';"
+
+}

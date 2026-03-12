@@ -27,24 +27,26 @@ log() {
 
     # Colorize terminal output
     case "$level" in
-        debug) color="${GRAY}" ;;
-        info)  color="${BLUE}" ;;
+        debug) color="${BLUE}" ;;   #${GRAY}" ;;
+        info)  color="${GRAY}" ;;   #${BLUE}" ;;
         warn)  color="${YELLOW}" ;;
         error) color="${RED}" ;;
         *)     color="${RESET}" ;;
     esac
 
+    ts=$(date "+%m-%d %H:%M:%S")
     # Terminal output with color (stderr)
-    echo -e "${color}[$level] $message${RESET}" >&2
+    echo -e "${color}$ts [$level] $message${RESET}" >&2
     # File log (plain text)
-    echo "[$level] $message" >> "$LOGFILE"
+    echo "$ts [$level] $message" >> "$LOGFILE"
 }
 
 aic_require() {
 command -v "$1" >/dev/null || {
-    log error "❌ missing $1"
+    log error "❌ Missing $1"
     exit 1
 }
+log info "✅ Check $1"
 }
 
 aic_usage() {

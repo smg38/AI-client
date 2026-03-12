@@ -109,7 +109,26 @@ aic_stream_request(){
 local MODEL="$1"
 local JSON="$2"
 
-PROVIDER=$(yq ".models.$MODEL.provider" "$CFG")
+log debug "CFG=$CFG"
+log debug "MODEL=$MODEL"
+
+# Очищаем имя модели от кавычек
+MODEL_NAME=$(echo "$MODEL" | tr -d '"' | sed 's/^"//' | sed 's/"$//')
+log debug "MODEL_NAME=$MODEL_NAME"
+
+# Экранируем слеши и другие спецсимволы в имени модели
+MODEL_ESCAPED=$(echo "$MODEL_NAME" | sed 's/[]\/$*.^|[]/\\&/g')
+log debug "MODEL_ESCAPED=$MODEL_ESCAPED"
+
+# Используем экранированное имя в yq запросе
+PROVIDER=$(yq ".models[\"$MODEL_ESCAPED\"].provider" "$CFG" 2>/dev/null)
+log debug "PROVIDER=$PROVIDER"
+
+# Проверка наличия провайдера
+if [[ -z "$PROVIDER" || "$PROVIDER" == "null" ]]; then
+    echo "Error: Model '$MODEL_NAME' not found in config or no provider specified. Please check .config.yaml"
+    exit 1
+fi
 
 case "$PROVIDER" in
 

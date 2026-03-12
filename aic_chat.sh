@@ -8,6 +8,7 @@
 set -euo pipefail
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LOG_LEVEL=debug
 
 source "$DIR/aic_lib.sh"
 source "$DIR/aic_config.sh"
@@ -36,15 +37,16 @@ fi
 
 MODEL=$(aic_default_model)
 
-log info "❓ $QUESTION"
-log info "⏳ processing..."
-
+log info "❓ Model: $MODEL Quest: $QUESTION"
 CONTEXT=$(aic_load_context)
-
+log info "⏳ Context was load. Processing..."
+log debug "⏳ Context=$CONTEXT"
+[ -z "$CONTEXT" ] && CONTEXT='[]'
+arg_con="--argjson ctx $CONTEXT"
 JSON=$(jq -n \
 --arg model "$MODEL" \
 --arg q "$QUESTION" \
---argjson ctx "$CONTEXT" '
+$arg_con '
 {
 model:$model,
 messages: ($ctx + [{role:"user",content:$q}]),
