@@ -39,6 +39,7 @@ CFG="$FALLBACK"
 fi
 
 mkdir -p /var/log/ai-client 2>/dev/null || true
+LOG_LEVEL="${LOG_LEVEL:-info}"
 touch "$LOGFILE" 2>/dev/null || LOGFILE="$HOME/ai-client/chat.log"
 
 }

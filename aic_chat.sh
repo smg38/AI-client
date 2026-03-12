@@ -36,8 +36,8 @@ fi
 
 MODEL=$(aic_default_model)
 
-echo -e "${BLUE}❓ $QUESTION${RESET}"
-echo -e "${GRAY}⏳ processing...${RESET}"
+log info "❓ $QUESTION"
+log info "⏳ processing..."
 
 CONTEXT=$(aic_load_context)
 
@@ -54,6 +54,7 @@ stream:true
 ANSWER=$(aic_stream_request "$MODEL" "$JSON")
 
 echo
+log info "$ANSWER"
 echo "$ANSWER" | aic_highlight
 
 aic_save_msg user "$QUESTION"

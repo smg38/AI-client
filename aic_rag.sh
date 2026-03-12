@@ -5,7 +5,7 @@
 # Автор: TG: @smg38
 # Префикс: aic_
 
-AIC_RAG_DB="$HOME/ai-client/rag.db"
+AIC_RAG_DB="${AIC_RAG_DB:-./aic.db}"
 
 ####################################
 # init rag database

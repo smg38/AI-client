@@ -4,7 +4,7 @@
 # Автор: TG: @smg38
 # Префикс: aic_
 
-AIC_COST_DB="$HOME/ai-client/cost.db"
+AIC_COST_DB="${AIC_COST_DB:-./aic.db}"
 
 aic_cost_init(){
 mkdir -p "$(dirname "$AIC_COST_DB")"

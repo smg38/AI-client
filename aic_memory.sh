@@ -3,7 +3,7 @@
 # Версия: 2.0.0
 # Автор: TG: @smg38
 
-DB="$HOME/ai-client/memory.db"
+DB="${DB:-./aic.db}"
 USER_NAME="${AI_USER:-$USER}"
 
 aic_init_db(){
